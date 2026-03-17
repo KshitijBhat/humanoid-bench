@@ -60,7 +60,7 @@ def main(_):
 
     # Setup local directories based on environment and timestamp
     run_id = f"sac_{FLAGS.env_name}_{int(time.time())}"
-    run_dir = os.path.join(FLAGS.save_dir, run_id)
+    run_dir = os.path.join(os.path.abspath(FLAGS.save_dir), run_id)
     video_dir = os.path.join(run_dir, "videos")
     
     os.makedirs(run_dir, exist_ok=True)

@@ -15,3 +15,6 @@ models
 outputs
 runs
 wandb
+
+results/
+training_logs/
