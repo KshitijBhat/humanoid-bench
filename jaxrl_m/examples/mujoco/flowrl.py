@@ -22,7 +22,7 @@ import jax.numpy as jnp
 import numpy as np
 import optax
 from jaxrl_m.common import TrainState, target_update, nonpytree_field
-from jaxrl_m.networks import FlowQNetwork, FlowValueNetwork, FlowPolicy
+from jaxrl_m.networks_flowrl import FlowQNetwork, FlowValueNetwork, FlowPolicy
  
 import flax
 import flax.linen as nn

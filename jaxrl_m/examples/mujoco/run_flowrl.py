@@ -66,6 +66,42 @@ def render(policy_fn, env) -> tuple:
  
     frames = np.array(frames)
     return frames, episode_return, episode_length
+
+def sample_flowrl_batch(replay_buffer, batch_size: int):
+    """
+    Samples 80% uniformly from the whole buffer and 20% from the most recent 2048 transitions,
+    matching the original PyTorch FlowRL implementation.
+    """
+    buffer_len = replay_buffer.size
+    pointer = replay_buffer.pointer
+    
+    # Calculate 80/20 split
+    num_uniform = int(batch_size * 0.8)
+    num_recent = batch_size - num_uniform
+    
+    # 1. Uniform samples
+    uniform_indices = np.random.choice(buffer_len, num_uniform, replace=False)
+    
+    # 2. Recent samples (from a rolling window of max 2048)
+    recent_window = min(2048, buffer_len)
+    
+    if pointer - recent_window >= 0:
+        recent_indices_raw = np.arange(pointer - recent_window, pointer)
+    else:
+        # Handle circular buffer wrap-around
+        # When wrapped, the oldest valid data in the window is at the end of the current buffer
+        part1 = np.arange(pointer - recent_window + buffer_len, buffer_len)
+        part2 = np.arange(0, pointer)
+        recent_indices_raw = np.concatenate([part1, part2])
+        
+    actual_num_recent = min(num_recent, recent_window)
+    recent_indices = np.random.choice(recent_indices_raw, actual_num_recent, replace=False)
+    
+    # 3. Combine indices
+    all_indices = np.concatenate([uniform_indices, recent_indices])
+    
+    # Leverage jaxrl_m's built-in subset sampling
+    return replay_buffer.sample(batch_size, indx=all_indices)
  
  
 def main(_):
@@ -170,7 +206,8 @@ def main(_):
             continue
  
         # Update agent
-        batch = replay_buffer.sample(FLAGS.batch_size)
+        # batch = replay_buffer.sample(FLAGS.batch_size)
+        batch = sample_flowrl_batch(replay_buffer, FLAGS.batch_size)
         agent, update_info = agent.update(batch)
  
         # Logging
