@@ -170,6 +170,11 @@ def main(_):
             for k, v in eval_metrics.items():
                 writer.add_scalar(k, v, i)
 
+            print(f"\n[Step {i}] eval_return={eval_info['episode.return']:.2f}, "
+                  f"eval_length={eval_info['episode.length']:.0f}, "
+                  f"success={eval_success:.3f}")
+
+
         # Video Rendering
         if i % FLAGS.render_interval == 0:
             render_frames, render_return, render_length = render(policy_fn, eval_env)

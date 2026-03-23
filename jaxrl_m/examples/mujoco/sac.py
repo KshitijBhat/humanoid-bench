@@ -157,3 +157,19 @@ def get_default_config():
         'target_entropy': ml_collections.config_dict.placeholder(float),
         'backup_entropy': True,
     })
+
+"""
+def get_default_config():
+    import ml_collections
+
+    return ml_collections.ConfigDict({
+        'actor_lr': 5e-5,
+        'critic_lr': 5e-5,
+        'temp_lr': 3e-4,
+        'hidden_dims': (512, 512),
+        'discount': 0.99,
+        'tau': 0.005,
+        'target_entropy': ml_collections.config_dict.placeholder(float),
+        'backup_entropy': True,
+    })
+"""

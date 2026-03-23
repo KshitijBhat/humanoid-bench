@@ -4,11 +4,6 @@ Usage:
     python run_flowrl.py --env_name h1hand-walk-v0 --seed 0
     python run_flowrl.py --env_name h1hand-walk-v0 --seed 0 --config.quantile 0.8
     python run_flowrl.py --env_name h1hand-crawl-v0 --max_steps 2000000
- 
-Supported HumanoidBench tasks (no dexterous hands):
-    h1hand-balance_hard-v0, h1hand-balance_simple-v0, h1hand-crawl-v0,
-    h1hand-maze-v0, h1hand-reach-v0, h1hand-sit_hard-v0, h1hand-walk-v0,
-    h1hand-stand-v0, h1hand-run-v0, h1hand-hurdle-v0, h1hand-slide-v0
 """
  
 import os

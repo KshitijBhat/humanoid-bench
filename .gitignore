@@ -18,3 +18,5 @@ wandb
 
 results/
 training_logs/
+
+snqf/
